@@ -8,7 +8,10 @@ import time
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.StreamHandler()] # Nəticələri birbaşa terminalda göstərsin
+    handlers=[
+        logging.StreamHandler(),          # Terminalda göstərmək üçün
+        logging.FileHandler("api.log")   # Fayla yazmaq üçün
+    ]
 )
 logger = logging.getLogger("MLOps-API")
 
