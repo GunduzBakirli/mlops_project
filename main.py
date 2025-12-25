@@ -38,4 +38,5 @@ def get_all_data():
 @app.get("/average_price")
 def get_avg_price():
     avg = df["qiymet"].mean()
-    return {"ortalama_qiymet":avg}
+
+    return {"ortalama_qiymet":avg} 
