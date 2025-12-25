@@ -1,42 +1,19 @@
-# from fastapi import FastAPI
-# app = FastAPI()
-# def simple_model(number:int):
-#     if number % 2 ==0:
-#         return "Cut reqemdir"
-#     else:
-#         return "Tek reqemdir"
-    
-# @app.get("/")
-# def home():
-#     return {"mesaj": "MLOps API-miz ishleyr"}
-# @app.get ("/predict/{number}")
-# def predict(number:int):
-#     result=simple_model(number)
-#     return{
-#         "input":number,
-#         "prediction":result
-#     } 
-
 import pandas as pd
 from fastapi import FastAPI
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+
 app = FastAPI()
-
-data={
-    "model":["BMW","Mercedes","Toyota"],
-    "qiymet":[50000,60000,123456788],
-    "il":[2020,2021,2019]
-}
-df=pd.DataFrame(data)
-
-@app.get("/")
+iris=load_iris()
+x=iris.data
+y=iris.target
+model = RandomForestClassifier()
+model.fit(x, y)
+@app.get('/')
 def home():
-    return {"mesaj":"data-merkezli MLOPS apimiz hazirdir!"}
+    return {"mesaj":"Real ML modeli ile ishleyen API aktivdir!"}
 
-@app.get("/get_data")
-def get_all_data():
-    return df.to_dict(orient="records")
-@app.get("/average_price")
-def get_avg_price():
-    avg = df["qiymet"].mean()
-
-    return {"ortalama_qiymet":avg} 
+@app.get("/predict")
+def predict(sepal_l: float, sepal_w: float, petal_l: float, petal_w: float):
+    prediction = model.predict([[sepal_l, sepal_w, petal_l, petal_w]])
+    label = iris.target_names[prediction[0]]
