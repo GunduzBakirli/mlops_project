@@ -27,4 +27,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: gunduzbakirli/mlops-api:latest
+        tags: |
+            gunduzbakirli/mlops-api:latest
+            gunduzbakirli/mlops-api:v1.${{ github.run_number }}
