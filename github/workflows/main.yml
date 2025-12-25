@@ -1,0 +1,30 @@
+name: MLOps Docker Build and Push
+
+# Robot ne vaxt oyansin? (Kod GitHub-a push olunanda)
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. GitHub-daki kodlarimizi gotur
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Docker Hub-a girish et
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # 3. Docker image-i build et ve avtomatik push et
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: gunduzbakirli/mlops-api:latest
